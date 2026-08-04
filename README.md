@@ -2,7 +2,9 @@
 
 > 非官方出品。DeepSeek Harness 的实时"工作状态行"插件：模型的实时活动 —— 俏皮思考文案、真正在跑的工具、已耗时、收尾摘要 —— 在 agent 干活时展示在 TUI prompt 与 Web UI 上。
 
-作者：chimney（[ccch1mneyyy](https://github.com/ccch1mneyyy)）· 维护于 [ohmyd-dev](https://github.com/ohmyd-dev) 组织
+作者：chimney（[ccch1mneyyy](https://github.com/ccch1mneyyy)）· 发布于 [dsh-external](https://github.com/dsh-external) 组织
+
+> 版权归作者本人所有；本组织为 DSH 内测社区仓库，官方不保证公开发布后该组织仍然存在，请自行保留副本。
 
 ## 特性
 
