@@ -1,6 +1,6 @@
 # omdsh — working-activity 插件（DSH 社区版）
 
-> 非官方出品。DeepSeek Harness 的实时"工作状态行"插件：模型的实时活动 —— 俏皮思考文案、真正在跑的工具、已耗时、收尾摘要 —— 在 agent 干活时展示在官方 dsh-tui、Web UI 与 dsh-cc 终端上。
+> 非官方出品。DeepSeek Harness 的实时"工作状态行"插件：模型的实时活动 —— 俏皮思考文案、真正在跑的工具、已耗时、收尾摘要 —— 在 agent 干活时展示在 Web UI 与 dsh-cc 终端上。
 
 作者：chimney（[ccch1mneyyy](https://github.com/ccch1mneyyy)）· 发布于 [dsh-external](https://github.com/dsh-external) 组织
 
@@ -12,9 +12,9 @@
 - **趣味文案**：思考/等待/收尾/失败/深夜五个文案池，思考超时分档（30s / 1m / 5m），全部可关（`phrases: false` 变朴素标签）
 - **模型自述（narrate）**：注入约定，模型在正文首行写 `⏵ 你正在做什么`；实时展示在状态行，聊天正文自动过滤该行（日志保留）
 - **收尾统计**：`turn/end` 后展示 `搞定 ✓ · N 工具 · 想Xs 干Ys` + token 用量（灰条，仅 done 阶段）
-- **三个出口**：官方 dsh-tui prompt 槽位（`${activity}` 模板）+ Web UI（TurnStatus
-  状态标签 + WorkingLine 收尾条）+ dsh-cc 状态栏（消费同一 `activity/status`
-  事件流，渲染动画指示器 / 流光文案 / 上下文预警）
+- **两个出口**：Web UI（TurnStatus 状态标签 + WorkingLine 收尾条）+ dsh-cc
+  状态栏（消费同一 `activity/status` 事件流，渲染动画指示器 / 流光文案 /
+  上下文预警）
 
 ## 目录结构
 
@@ -48,19 +48,6 @@ git apply patches/webui-working-activity.patch   # 在 DSH monorepo 根目录执
 ```yaml
 # cordis.yml
 plugins:
-  - id: working-activity
-    name: '@deepseek-ai/dsh-working-activity'
-```
-
-官方 dsh-tui 效果还需把 `${activity}` 加进 `theme.leftPrompt`：
-
-```yaml
-plugins:
-  - id: tui
-    name: '@deepseek-ai/dsh-tui'
-    config:
-      theme:
-        leftPrompt: '${cwd}${git/worktree}${activity}${model}${token_meter/cache_hit_rate}${context}'
   - id: working-activity
     name: '@deepseek-ai/dsh-working-activity'
 ```
@@ -100,9 +87,9 @@ plugins:
 
 ## 已知限制
 
-- 单一状态行：每会话一条，官方 TUI 槽位显示最近活跃会话。
+- 单一状态行：每会话一条，Web/终端消费端显示最近活跃会话。
 - 无进度百分比：DSH 没有工具进度事件，长工具只显示已耗时。
-- 无动画帧：官方 TUI 槽位渲染静态文本片段（dsh-cc 渲染侧自带动画指示器）。
+- 无动画帧：事件载荷为静态文本片段（dsh-cc 渲染侧自带动画指示器与流光）。
 - Web 双入口：`WorkingLine` 与 `TurnStatus` 在收尾阶段展示同一快照；dock 条目
   服务于回合标签不可见的会话视图。
 
