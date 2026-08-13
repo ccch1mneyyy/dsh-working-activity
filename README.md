@@ -2,7 +2,7 @@
 
 > 非官方出品。DeepSeek Harness 的实时"工作状态行"插件：模型的实时活动 —— 俏皮思考文案、真正在跑的工具、已耗时、收尾摘要 —— 在 agent 干活时展示在 Web UI 与 dsh-cc 终端上。
 
-作者：chimney（[ccch1mneyyy](https://github.com/ccch1mneyyy)）· 发布于 [dsh-external](https://github.com/dsh-external) 组织
+作者：chimney（[ccch1mneyyy](https://github.com/ccch1mneyyy)）· 发布在 [ccch1mneyyy](https://github.com/ccch1mneyyy)
 
 > 版权归作者本人所有。社区发布，非 DeepSeek 官方项目；若上游组织变动，请以 fork 副本为准。
 
@@ -53,7 +53,7 @@ plugins:
 ```
 
 **dsh-cc 效果**：装好
-[dsh-cc-tui](https://github.com/dsh-external/dsh-cc-tui)（`@dsh-external/dsh-cc-tui`）
+[dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui)（`@deepseek-ai/dsh-cc-tui`）
 后同挂本插件即可——cc-tui 状态栏第三行消费 `activity/status` 事件，渲染动画
 指示器（28 预设，`config.activityFrames`）、白色流光文案、`⚠` 上下文预警与
 `⏵` 自述，聊天正文自动过滤 `⏵` 行。建议把 `publishIntervalMs` 调到 `500`
