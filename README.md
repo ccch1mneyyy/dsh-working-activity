@@ -27,12 +27,17 @@ patches/webui-working-activity.patch  Web UI 集成补丁（基于 DSH 20260804 
 
 前置条件：**DSH 源码环境**（pnpm workspace 布局）。
 
-### 1. 放插件
+### 1. 安装
 
-把 `packages/activity/working-activity/` 整个目录复制到你的 DSH monorepo 的
-`packages/activity/working-activity/`（同路径）。然后在根 `tsconfig.host.json` 的
-`references` 里加一条该包的引用，并确保 `tsconfig.base.json` 的 `paths` 含
-`./packages/activity/*/src`。`pnpm install` 后插件即可被 workspace 解析。
+插件已发布 npm，官方 dsh CLI 一条命令：
+
+```sh
+dsh plugin --profile <你的 profile> add dsh-working-activity
+```
+
+或 `npm install dsh-working-activity` 后在 cordis.yml 按包名挂载（见第 3 节）。
+源码方式（DSH monorepo 内开发）：把 `packages/activity/working-activity/` 整个
+目录复制到 monorepo 同路径，`pnpm install` 后即可被 workspace 解析。
 
 ### 2. 打 Web UI 补丁（可选，只要 Web 端效果）
 
@@ -49,11 +54,11 @@ git apply patches/webui-working-activity.patch   # 在 DSH monorepo 根目录执
 # cordis.yml
 plugins:
   - id: working-activity
-    name: '@deepseek-ai/dsh-working-activity'
+    name: 'dsh-working-activity'
 ```
 
 **dsh-cc 效果**：装好
-[dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui)（`@deepseek-ai/dsh-cc-tui`）
+[dsh-cc-tui](https://github.com/ccch1mneyyy/dsh-cc-tui)（`dsh-cc-tui`）
 后同挂本插件即可——cc-tui 状态栏第三行消费 `activity/status` 事件，渲染动画
 指示器（28 预设，`config.activityFrames`）、白色流光文案、`⚠` 上下文预警与
 `⏵` 自述，聊天正文自动过滤 `⏵` 行。建议把 `publishIntervalMs` 调到 `500`
