@@ -1,10 +1,10 @@
-# omdsh — working-activity 插件（DSH 社区版）
+# dsh-working-activity — DSH 实时工作状态行插件
 
 > 非官方出品。DeepSeek Harness 的实时"工作状态行"插件：模型的实时活动 —— 俏皮思考文案、真正在跑的工具、已耗时、收尾摘要 —— 在 agent 干活时展示在 Web UI 与 dsh-cc 终端上。
 
-作者：chimney（[ccch1mneyyy](https://github.com/ccch1mneyyy)）· 发布在 [ccch1mneyyy](https://github.com/ccch1mneyyy)
+作者：chimney（[@ccch1mneyyy](https://github.com/ccch1mneyyy)）
 
-> 版权归作者本人所有。社区发布，非 DeepSeek 官方项目；若上游组织变动，请以 fork 副本为准。
+> 版权归作者本人所有。社区发布，非 DeepSeek 官方项目。
 
 ## 特性
 
@@ -20,12 +20,12 @@
 
 ```
 packages/activity/working-activity/   插件本体（cordis 宿主插件源码 + 测试）
-patches/webui-working-activity.patch  Web UI 集成补丁（基于官方 0804 快照）
+patches/webui-working-activity.patch  Web UI 集成补丁（基于 DSH 20260804 快照）
 ```
 
-## 安装（群友看这里）
+## 安装
 
-前置条件：**DSH 源码环境**（官方 0804 快照 `20260804T143803Z`，pnpm workspace 布局）。
+前置条件：**DSH 源码环境**（pnpm workspace 布局）。
 
 ### 1. 放插件
 
@@ -40,7 +40,7 @@ patches/webui-working-activity.patch  Web UI 集成补丁（基于官方 0804 �
 git apply patches/webui-working-activity.patch   # 在 DSH monorepo 根目录执行
 ```
 
-补丁基于官方 0804 快照生成，改动 12 个文件（runtime + ui-conversation），
+补丁基于 DSH 20260804 快照生成，改动 12 个文件（runtime + ui-conversation），
 验证过可干净应用。只想要终端效果的可以不打。
 
 ### 3. 启用插件
