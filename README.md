@@ -4,7 +4,7 @@
 
 作者：chimney（[ccch1mneyyy](https://github.com/ccch1mneyyy)）· 发布于 [dsh-external](https://github.com/dsh-external) 组织
 
-> 版权归作者本人所有；本组织为 DSH 内测社区仓库，官方不保证公开发布后该组织仍然存在，请自行保留副本。
+> 版权归作者本人所有。社区发布，非 DeepSeek 官方项目；若上游组织变动，请以 fork 副本为准。
 
 ## 特性
 
