@@ -25,6 +25,7 @@ import type {} from '@deepseek-ai/dsh-system-prompt'
 import { ActivityTracker } from './status.js'
 import type { ActivityState } from './status.js'
 import type { ActivityStatusEvent } from './events.js'
+import { getLang, isLang, setLang } from './i18n.js'
 // Re-export the event type + SessionEventMap merge: the package root must carry
 // the declare-module side effect for consumers resolving the built d.ts.
 export type * from './events.js'
@@ -53,6 +54,8 @@ export type Config = {
   customActions?: Record<string, string[]>
   /** Inject the `⏵` self-narration contract into the system prompt and surface it. */
   narrate?: boolean
+  /** Status-line UI language: `en` / `zh` (default `zh`). */
+  lang?: string
 }
 
 export const Config = z.object({
@@ -63,6 +66,7 @@ export const Config = z.object({
   detailLimit: z.number().step(1).min(8).max(120).default(40),
   customActions: z.dict(z.array(z.string())).default({}),
   narrate: z.boolean().default(true),
+  lang: z.string().default('zh'),
 })
 
 /** Structural view of the TUI prompt service; the real type lives in dsh-tui. */
@@ -85,8 +89,15 @@ interface ResolvedConfig {
 }
 
 /** The self-narration contract injected into the system prompt (narrate on). */
-const NARRATE_INSTRUCTION =
+const NARRATE_INSTRUCTION_ZH =
   '[状态栏] 你有一个状态栏展示给用户。【必须】在每个步骤/子任务开始时（不只是调用工具前），在回复正文的最前面单独写一行：⏵ 你在做的具体事情（不超过20字），然后换行继续正常回复。整轮回复只写一行 ⏵，不要重复。信息为主——让人一眼知道你在干什么，风格自然、可以带点俏皮。例：⏵ 修复登录页样式、⏵ 查一下报错原因、⏵ 给补丁跑个验证。切换任务时必须更新。'
+
+const NARRATE_INSTRUCTION_EN =
+  '[Status bar] You have a status bar shown to the user. [Required] At the start of each step/subtask (not only before calling a tool), write a single line at the very beginning of your reply: ⏵ the specific thing you are doing (max 20 characters), then a newline and continue your normal reply. Write only one ⏵ line per turn — don\'t repeat. Info first — let the user see at a glance what you\'re doing, in a natural, slightly playful style. Examples: ⏵ fixing login page styles, ⏵ investigating the error cause, ⏵ running verification on the patch. Update it whenever you switch tasks.'
+
+function narrateInstruction(): string {
+  return getLang() === 'en' ? NARRATE_INSTRUCTION_EN : NARRATE_INSTRUCTION_ZH
+}
 
 /**
  * Wire the working-activity plugin.
@@ -94,6 +105,9 @@ const NARRATE_INSTRUCTION =
  * @param config - Validated plugin config (schema defaults applied).
  */
 export function apply(ctx: Context, config: Config = {}): void {
+  // Status-line language: `lang` config (`en` / `zh`), default `zh`. Must
+  // settle before the first tracker render so pools resolve in one language.
+  if (isLang(config.lang)) setLang(config.lang)
   const resolved: ResolvedConfig = {
     phrases: config.phrases ?? true,
     publish: config.publish ?? false,
@@ -122,7 +136,7 @@ export function apply(ctx: Context, config: Config = {}): void {
       promptCtx.systemPrompt.section({
         name: 'working-activity:narrate',
         order: 60,
-        text: NARRATE_INSTRUCTION,
+        text: narrateInstruction(),
       })
     })
   }
